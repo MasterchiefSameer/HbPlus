@@ -29,17 +29,22 @@ npx eas-cli@latest <cmd>    # EAS builds, submits, and updates (use instead of b
 
 Each tool has one job. Ask before moving a responsibility to a different tool.
 
-- **Authentication & OAuth:** Google OAuth 2.0 integrated via Supabase / Firebase Auth with token persistence via `expo-secure-store` (mobile) and `localStorage` (web) managed in `src/context/auth-context.tsx`.
-- **Domain Gatekeeper:** `src/utils/domain-validator.ts` strictly enforces the allowed domain (`@hbplus.fit` from `EXPO_PUBLIC_ALLOWED_DOMAIN`). Non-matching domains (e.g. `@gmail.com`) trigger instant token teardown, session revocation, and an explicit inline error alert banner.
+- **Authentication & OAuth:** Google OAuth 2.0, Email & Password, and Email Code (OTP) integrated via Clerk Expo (`@clerk/expo`) with hardware token persistence via `expo-secure-store` (mobile) and browser storage (web) managed in `src/context/auth-context.tsx`.
+- **Database & Storage:** Supabase PostgreSQL & Storage client configured in `src/services/supabase.ts`.
+- **Domain Gatekeeper & Access Control:** `src/utils/domain-validator.ts` strictly enforces:
+  - **Staff Portal (`@hbplus.fit`)**: Exclusive domain clearance required. Non-matching domains (e.g. `@gmail.com`) trigger instant token teardown, session revocation, and an explicit inline error alert. Roles: `Clinician`, `Medical`, `Director`.
+  - **User Portal (Personal Emails)**: Open member registration with personal emails (e.g. Gmail, Apple, personal domains) for personalized lifestyle assessments, care pathways, and consultations.
 - **Route Protection:** Expo Router layout gates in `src/app/(app)/_layout.tsx` guard direct URL tampering on web and deep-links on mobile, redirecting unauthorized users to `/login`.
-- **User Database & Persistence:** User profile records (`email`, `name`, `avatar`, `role`, `domain`, `lastLoginAt`) stored in Firestore / Supabase.
-- **Role-Based Access Control (RBAC):** `admin` vs `user` roles stored on the profile and evaluated in `src/app/(app)/dashboard.tsx` to conditionally render administrative controls vs staff schedules.
+- **User Database & Persistence:** User profile records (`email`, `name`, `avatar`, `role`, `portalType: 'user' | 'staff'`, `domain`, `lastLoginAt`) stored in Firestore.
+- **Role-Based Access Control (RBAC):** Distinct dashboards based on portal type:
+  - **Staff Dashboard**: Consultations queue, patient biomarkers, clinical protocol assignments, and administrative oversight based on role (`Clinician` | `Medical` | `Director`).
+  - **Member Dashboard**: 3-Pillar Daily Wheel (Body, Mind, Gut), personalized care pathways, 1:1 expert booking, and pause/vacation mode.
 - **Styling:** NativeWind v5 (Tailwind CSS v4) with `nativewind/metro` and split layered imports in `src/global.css`.
 - **Design System:** Single source of truth in `src/theme/` (`colors.ts`, `spacing.ts`, `typography.ts`, `radius.ts`, `shadows.ts`, `motion.ts`, `index.ts`) mirrored as `@theme` CSS variables in `src/global.css`.
   - Palette: Terracotta (`#9F4022`), Deep Rust (`#7A2E1A`), Warm Cream canvas (`#FCF8F0`), Charcoal (`#1A1918`), Muted Gray (`#6B6763`), Sand Border (`#E9E4D8`), Forest Success (`#2D7A4D`), Restricted Red (`#C53030`), Domain Gold (`#D97706`), Frosted Glass (`rgba(255,255,255,0.7)`).
   - Fonts: Playfair Display Bold/SemiBold (Display & Headings), Plus Jakarta Sans (Body), JetBrains Mono (Captions & Auth Mono).
   - Shared primitives live in `src/components/ui/` (`ThemedText`, `Button`, `IconButton`, `Input`, `Chip`, `Badge`, `AlertBanner`, `Card`, `SegmentedControl`, `Stepper`, `Avatar`, `ListRow`, `GlassTabBar`).
-- **Navigation:** Root gateway at `src/app/index.tsx`, auth stack at `src/app/(auth)/login.tsx`, and protected portal at `src/app/(app)/dashboard.tsx`.
+- **Navigation:** Root gateway at `src/app/index.tsx`, auth stack at `src/app/(auth)/` (`login.tsx`, `verify.tsx`, `signup.tsx`), and protected portal at `src/app/(app)/dashboard.tsx`.
 
 ## Rules
 

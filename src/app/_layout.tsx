@@ -21,8 +21,22 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import { ClerkProvider } from '@clerk/expo';
+import { tokenCache } from '@clerk/expo/token-cache';
 
 import { colors } from '@/theme';
+import { AuthProvider } from '@/context/auth-context';
+
+WebBrowser.maybeCompleteAuthSession();
+
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
+if (!publishableKey) {
+  throw new Error(
+    'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env'
+  );
+}
 
 SplashScreen.preventAutoHideAsync();
 
@@ -48,15 +62,23 @@ export default function RootLayout() {
   if (!loaded && !error) return null;
 
   return (
-    <>
-      <StatusBar style="dark" />
-      <Stack
-        screenOptions={{
-          contentStyle: { backgroundColor: colors.cream },
-        }}>
-        {/* Design-system sheet is a full-bleed showcase, not a task screen. */}
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-      </Stack>
-    </>
+    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+      <AuthProvider>
+        <StatusBar style="dark" />
+        <Stack
+          screenOptions={{
+            contentStyle: { backgroundColor: colors.cream },
+          }}>
+          {/* Onboarding screen */}
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          {/* Auth routes */}
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          {/* Protected routes */}
+          <Stack.Screen name="(app)" options={{ headerShown: false }} />
+          {/* SSO Callback */}
+          <Stack.Screen name="sso-callback" options={{ headerShown: false }} />
+        </Stack>
+      </AuthProvider>
+    </ClerkProvider>
   );
 }

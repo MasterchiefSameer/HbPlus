@@ -23,6 +23,7 @@ export const colors = {
 
   // Tints (alert / badge backgrounds and borders)
   terracottaTint: '#F8EAE3',
+  terracottaBorder: '#F2D0C4',
   forestTint: '#E8F3EC',
   forestBorder: '#BFDCC9',
   restrictedTint: '#FBEAEA',
