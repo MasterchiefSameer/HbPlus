@@ -1,98 +1,139 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
+import Feather from '@expo/vector-icons/Feather';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import { Badge, Button, ThemedText } from '@/components/ui';
+import { GridRow } from '@/screens/design-system/panel';
+import {
+  AlertsPanel,
+  AuthPolicyPanel,
+  BrandPanel,
+  ButtonsPanel,
+  ChipsPanel,
+  ControlsPanel,
+  IconographyPanel,
+  InputsPanel,
+  NavigationPanel,
+  PalettePanel,
+  PathwayPanel,
+  ProfilePanel,
+  TagsPanel,
+  TypographyPanel,
+} from '@/screens/design-system/sections';
+import { colors, fonts, maxContentWidth, spacing } from '@/theme';
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+export default function DesignSystemScreen() {
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right', 'bottom']}>
+      <ScrollView contentContainerStyle={styles.scroll}>
+        <View style={styles.container}>
+          {/* Header Bar matching Master Sheet */}
+          <View style={styles.header}>
+            <View style={styles.headerLeft}>
+              <ThemedText variant="overline" style={{ letterSpacing: 1.2 }}>
+                DESIGN SYSTEM V2.4 • PRODUCTION READY
+              </ThemedText>
+              <ThemedText variant="display" style={styles.title}>
+                HB+ Core System & UI Kit
+              </ThemedText>
+              <ThemedText variant="body" style={styles.subtitle}>
+                Holistic longevity, high-trust clinical care, and domain-governed design specifications.
+              </ThemedText>
+            </View>
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+            <View style={styles.headerRight}>
+              <Badge label="OAuth Whitelist: @hbplus.fit" tone="forest" dot />
+              <Button
+                title="Export Token Specs"
+                variant="primary"
+                size="sm"
+                icon={<Feather name="download" size={14} color={colors.onTint} />}
+              />
+            </View>
+          </View>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+          {/* Section Row 1: Brand & Palette */}
+          <GridRow weights={[1, 1.6]}>
+            <BrandPanel />
+            <PalettePanel />
+          </GridRow>
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+          {/* Section Row 2: Typography, Buttons, Inputs */}
+          <GridRow weights={[1, 1, 1]}>
+            <TypographyPanel />
+            <ButtonsPanel />
+            <InputsPanel />
+          </GridRow>
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+          {/* Section Row 3: Filter Chips, Pathway Card, Auth Policy, Profile Row */}
+          <GridRow weights={[0.9, 1.1, 1.1, 1]}>
+            <ChipsPanel />
+            <PathwayPanel />
+            <AuthPolicyPanel />
+            <ProfilePanel />
+          </GridRow>
+
+          {/* Section Row 4: Navigation Chrome, Iconography, Controls */}
+          <GridRow weights={[1.2, 1, 1]}>
+            <NavigationPanel />
+            <IconographyPanel />
+            <ControlsPanel />
+          </GridRow>
+
+          {/* Section Row 5: Status Feedback & Tags */}
+          <GridRow weights={[1.8, 1]}>
+            <AlertsPanel />
+            <TagsPanel />
+          </GridRow>
+
+          {/* Footer Metadata matching Sheet */}
+          <View style={styles.footer}>
+            <View style={styles.footerLeft}>
+              <View style={styles.footerDot} />
+              <ThemedText variant="mono" style={{ fontSize: 10 }}>
+                HB+ Design Tokens & Component System Specification • Master Sheet
+              </ThemedText>
+            </View>
+            <ThemedText variant="mono" style={{ fontSize: 10 }}>
+              Canvas: 1536 • Auto Grid • Palette: Terracotta #9F4022 • Status: Synchronized
+            </ThemedText>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
+  safe: { flex: 1, backgroundColor: colors.cream },
+  scroll: { padding: spacing.md, alignItems: 'center' },
+  container: { width: '100%', maxWidth: maxContentWidth, gap: spacing.md },
+  header: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: spacing.md,
+    paddingVertical: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.sand,
+    paddingBottom: spacing.md,
   },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
+  headerLeft: { flex: 1, minWidth: 280, gap: spacing.xs },
+  title: { fontSize: 32, lineHeight: 38, fontFamily: fonts.display, color: colors.charcoal },
+  subtitle: { fontSize: 14, lineHeight: 20, color: colors.muted },
+  headerRight: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, flexWrap: 'wrap' },
+  footer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+    gap: spacing.sm,
+    paddingTop: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.sand,
+    marginTop: spacing.md,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
+  footerLeft: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs + 2 },
+  footerDot: { width: 8, height: 8, borderRadius: 4, backgroundColor: colors.terracotta },
 });
