@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { AlertBanner, Button, ThemedText } from '@/components/ui';
+import { AlertBanner, Button, HbLogo, ThemedText } from '@/components/ui';
 import { useAuth } from '@/context/auth-context';
 import { colors, fonts, radius, shadows, spacing } from '@/theme';
 
@@ -96,10 +96,17 @@ export default function SignupScreen() {
     <SafeAreaView style={styles.safe} edges={['top', 'left', 'right', 'bottom']}>
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          {/* Header Monogram Lockup */}
-          <View style={styles.circleLogo}>
-            <ThemedText style={styles.logoText}>HB+</ThemedText>
-          </View>
+          {/* Header Monogram Lockup with official HB+ logo (clickable to landing page) */}
+          <Pressable
+            accessibilityRole="link"
+            accessibilityLabel="Return to HB+ Home"
+            onPress={() => router.replace('/')}
+            style={({ pressed }) => [
+              styles.circleLogo,
+              pressed && { opacity: 0.8, transform: [{ scale: 0.97 }] },
+            ]}>
+            <HbLogo size={42} variant="dark" />
+          </Pressable>
 
           {/* Badge */}
           <View style={[styles.gatewayBadge, portal === 'user' && styles.userGatewayBadge]}>

@@ -20,8 +20,14 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
-      "output": "server",
-      "favicon": "./assets/images/favicon.png"
+      "output": "static",
+      "favicon": "./assets/images/favicon.png",
+      "name": "HB+ | Precision Longevity & Care",
+      "shortName": "HB+",
+      "themeColor": "#9F4022",
+      "backgroundColor": "#FCF8F0",
+      "display": "standalone",
+      "orientation": "portrait"
     },
     "plugins": [
       "expo-router",

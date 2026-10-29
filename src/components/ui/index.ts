@@ -11,3 +11,4 @@ export { ListGroup, ListRow } from './list-row';
 export { SegmentedControl } from './segmented-control';
 export { Stepper } from './stepper';
 export { ThemedText } from './themed-text';
+export { HbLogo } from './hb-logo';
