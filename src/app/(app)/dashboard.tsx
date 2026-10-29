@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Avatar, Badge, Button, ThemedText } from '@/components/ui';
+import { Avatar, Badge, Button, HbLogo, ThemedText } from '@/components/ui';
 import { useAuth } from '@/context/auth-context';
 import { colors, fonts, radius, shadows, spacing } from '@/theme';
 
@@ -26,7 +26,7 @@ export default function DashboardScreen() {
           <View style={styles.header}>
             <View style={styles.brandRow}>
               <View style={styles.monogram}>
-                <ThemedText style={styles.monogramText}>HB+</ThemedText>
+                <HbLogo size={28} variant="dark" />
               </View>
               <View>
                 <ThemedText variant="heading" style={{ fontSize: 20 }}>
