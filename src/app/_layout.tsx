@@ -27,6 +27,7 @@ import { tokenCache } from '@clerk/expo/token-cache';
 
 import { colors } from '@/theme';
 import { AuthProvider } from '@/context/auth-context';
+import { Analytics } from '@vercel/analytics/react';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -78,6 +79,7 @@ export default function RootLayout() {
           {/* SSO Callback */}
           <Stack.Screen name="sso-callback" options={{ headerShown: false }} />
         </Stack>
+        <Analytics />
       </AuthProvider>
     </ClerkProvider>
   );
