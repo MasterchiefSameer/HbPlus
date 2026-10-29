@@ -158,7 +158,7 @@ flowchart TD
                   ┌───────────────────────┴───────────────────────┐
                   ▼                                               ▼
         [ Staff Portal ]                                [ Member Portal ]
-       Strictly @hbplus.fit                            Personal Accounts (Gmail, Apple...)
+       Strictly @hbplus.fit                            Personal Accounts (Gmail...)
                   │                                               │
    ┌──────────────┼──────────────┐                ┌───────────────┼───────────────┐
    ▼              ▼              ▼                ▼               ▼               ▼
