@@ -45,6 +45,5 @@ example
 
 #agent
 .agents
-AGENTS.md
 skills-lock.json
 skills.json
